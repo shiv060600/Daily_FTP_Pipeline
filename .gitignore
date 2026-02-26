@@ -1,0 +1,11 @@
+.env
+logs/*
+helpers/ENV.py
+*.docx
+*.spec
+README.md
+build
+dist
+__pycache__
+.claude
+.venv

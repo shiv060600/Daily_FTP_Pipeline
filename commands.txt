@@ -1,0 +1,1 @@
+pyinstaller.exe --onefile --name "DailyFileRunner" "--hidden-import=pyodbc" "--hidden-import=email.message" "--hidden-import=smtplib" "--hidden-import=ftplib" "--hidden-import=logging" "--hidden-import=datetime" "--hidden-import=getpass" "--hidden-import=shutil" "--hidden-import=fnmatch" "--hidden-import=sys" "--hidden-import=csv" "Main.py"

@@ -1,0 +1,467 @@
+<?xml version="1.0"?>
+<DTS:Executable
+  DTS:refId="Package" xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ExecutableType="SSIS.Package.3"
+  DTS:CreatorName="TUTTLEPUB\Administrator"
+  DTS:CreatorComputerName="TUTPUB4"
+  DTS:CreationDate="9/9/2022 1:16:21 PM"
+  DTS:VersionGUID="{FC01451E-563F-4C72-8CF8-86B8612041A6}"
+  DTS:LastModifiedProductVersion="11.0.2100.60"
+  DTS:MaxErrorCount="0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="BT_CUR_MNTH"
+  DTS:DTSID="{E6C98BB2-2D32-470C-B674-5576775D4F62}"
+  DTS:Description="SSIS Package Description"
+  DTS:CreationName="SSIS.Package.3">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">6</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[DestinationConnectionFlatFile]"
+      DTS:ObjectName="DestinationConnectionFlatFile"
+      DTS:DTSID="{030512E8-7C80-46D3-955E-D78EA59A3C4F}"
+      DTS:CreationName="FLATFILE">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="\\tutpub3\VOL2\FOXPRO\AMZ_Sales\BT_CUR_MNTH.TXT">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="24"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ITEM"
+              DTS:DTSID="{33E54F90-6708-4575-B5D9-F53A08565808}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="12"
+              DTS:DataType="129"
+              DTS:TextQualified="True"
+              DTS:ObjectName="CUSTOMER"
+              DTS:DTSID="{9047CF82-DA88-42B0-BFE7-65A915667B40}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="OLDACCT"
+              DTS:DTSID="{C54917F5-B2A6-401E-8286-1D9774E4118D}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="31"
+              DTS:DataType="131"
+              DTS:DataPrecision="38"
+              DTS:TextQualified="True"
+              DTS:ObjectName="QTY"
+              DTS:DTSID="{85F7016A-86A8-46C7-A4AA-361B71CEFD10}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x0009_"
+              DTS:MaximumWidth="31"
+              DTS:DataType="131"
+              DTS:DataPrecision="38"
+              DTS:TextQualified="True"
+              DTS:ObjectName="EXTPRICE"
+              DTS:DTSID="{DF5A95D4-22AD-41BC-A914-902C0EF87A36}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="6"
+              DTS:DataType="2"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PERIOD"
+              DTS:DTSID="{D5D68CEF-3507-4881-96D2-25F6A0BF246C}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SourceConnectionOLEDB]"
+      DTS:ObjectName="SourceConnectionOLEDB"
+      DTS:DTSID="{839ABAAB-5033-441A-9C02-0B066C6A4AF5}"
+      DTS:CreationName="OLEDB">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=TUTPUB4;Initial Catalog=TUTLIV;Provider=MSOLEDBSQL;Integrated Security=SSPI;Auto Translate=false;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Data Flow Task 1"
+      DTS:ExecutableType="SSIS.Pipeline.3"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:FailPackageOnFailure="True"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Data Flow Task 1"
+      DTS:DTSID="{EC09EFCA-9850-48B0-863D-A405AC4C17D7}"
+      DTS:CreationName="SSIS.Pipeline.3">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          defaultBufferSize="3145728"
+          version="1">
+          <components>
+            <component
+              refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT"
+              name="Destination - BT_CUR_MNTH_TXT"
+              componentClassID="{8DA75FED-1B7C-407D-B2AD-2B24209CCCA4}"
+              description="Flat File Destination"
+              localeId="1033"
+              contactInfo="Flat File Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0">
+              <properties>
+                <property
+                  name="Overwrite"
+                  dataType="System.Boolean"
+                  description="Specifies whether the data will overwrite or append to the destination file.">true</property>
+                <property
+                  name="Header"
+                  dataType="System.String"
+                  description="Specifies the text to write to the destination file before any data is written."
+                  expressionType="Notify"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Connections[FlatFileConnection]"
+                  name="FlatFileConnection"
+                  connectionManagerID="Package.ConnectionManagers[DestinationConnectionFlatFile]"
+                  connectionManagerRefId="Package.ConnectionManagers[DestinationConnectionFlatFile]" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input]"
+                  name="Flat File Destination Input"
+                  hasSideEffects="true">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].Columns[ITEM]"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[ITEM]"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].ExternalColumns[ITEM]"
+                      cachedName="ITEM"
+                      cachedDataType="str"
+                      cachedLength="24"
+                      cachedCodepage="1252" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].Columns[CUSTOMER]"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[CUSTOMER]"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].ExternalColumns[CUSTOMER]"
+                      cachedName="CUSTOMER"
+                      cachedDataType="str"
+                      cachedLength="12"
+                      cachedCodepage="1252" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].Columns[OLDACCT]"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[OLDACCT]"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].ExternalColumns[OLDACCT]"
+                      cachedName="OLDACCT"
+                      cachedDataType="wstr"
+                      cachedLength="255" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].Columns[QTY]"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[QTY]"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].ExternalColumns[QTY]"
+                      cachedName="QTY"
+                      cachedDataType="numeric"
+                      cachedPrecision="10" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].Columns[EXTPRICE]"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[EXTPRICE]"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].ExternalColumns[EXTPRICE]"
+                      cachedName="EXTPRICE"
+                      cachedDataType="numeric"
+                      cachedPrecision="38"
+                      cachedScale="3" />
+                    <inputColumn
+                      refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].Columns[PERIOD]"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[PERIOD]"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].ExternalColumns[PERIOD]"
+                      cachedName="PERIOD"
+                      cachedDataType="i2" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].ExternalColumns[ITEM]"
+                      name="ITEM"
+                      dataType="str"
+                      length="24"
+                      codePage="1252" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].ExternalColumns[CUSTOMER]"
+                      name="CUSTOMER"
+                      dataType="str"
+                      length="12"
+                      codePage="1252" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].ExternalColumns[OLDACCT]"
+                      name="OLDACCT"
+                      dataType="wstr"
+                      length="255" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].ExternalColumns[QTY]"
+                      name="QTY"
+                      dataType="numeric"
+                      precision="38" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].ExternalColumns[EXTPRICE]"
+                      name="EXTPRICE"
+                      dataType="numeric"
+                      precision="38" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input].ExternalColumns[PERIOD]"
+                      name="PERIOD"
+                      dataType="i2" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+            </component>
+            <component
+              refId="Package\Data Flow Task 1\Source - Query"
+              name="Source - Query"
+              componentClassID="{165A526D-D5DE-47FF-96A6-F8274C19826B}"
+              description="OLE DB Source"
+              usesDispositions="true"
+              version="7"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7">
+              <properties>
+                <property
+                  name="CommandTimeout"
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out.">0</property>
+                <property
+                  name="OpenRowset"
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."></property>
+                <property
+                  name="OpenRowsetVariable"
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."></property>
+                <property
+                  name="SqlCommand"
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">Select * from tutliv.dbo.bt_CUR_MNTH</property>
+                <property
+                  name="SqlCommandVariable"
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."></property>
+                <property
+                  name="DefaultCodePage"
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source.">1252</property>
+                <property
+                  name="AlwaysUseDefaultCodePage"
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data.">false</property>
+                <property
+                  name="AccessMode"
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  typeConverter="AccessMode">2</property>
+                <property
+                  name="ParameterMapping"
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Data Flow Task 1\Source - Query.Connections[OleDbConnection]"
+                  name="OleDbConnection"
+                  description="The OLE DB runtime connection used to access the database."
+                  connectionManagerID="Package.ConnectionManagers[SourceConnectionOLEDB]"
+                  connectionManagerRefId="Package.ConnectionManagers[SourceConnectionOLEDB]" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[ITEM]"
+                      name="ITEM"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[ITEM]"
+                      length="24"
+                      dataType="str"
+                      codePage="1252"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      truncationRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].ExternalColumns[ITEM]" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[CUSTOMER]"
+                      name="CUSTOMER"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[CUSTOMER]"
+                      length="12"
+                      dataType="str"
+                      codePage="1252"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      truncationRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].ExternalColumns[CUSTOMER]" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[OLDACCT]"
+                      name="OLDACCT"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[OLDACCT]"
+                      length="255"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      truncationRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].ExternalColumns[OLDACCT]" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[QTY]"
+                      name="QTY"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[QTY]"
+                      precision="10"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      truncationRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].ExternalColumns[QTY]" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[EXTPRICE]"
+                      name="EXTPRICE"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[EXTPRICE]"
+                      precision="38"
+                      scale="3"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      truncationRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].ExternalColumns[EXTPRICE]" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[PERIOD]"
+                      name="PERIOD"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].Columns[PERIOD]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      truncationRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].ExternalColumns[PERIOD]" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].ExternalColumns[ITEM]"
+                      name="ITEM"
+                      dataType="str"
+                      length="24"
+                      codePage="1252" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].ExternalColumns[CUSTOMER]"
+                      name="CUSTOMER"
+                      dataType="str"
+                      length="12"
+                      codePage="1252" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].ExternalColumns[OLDACCT]"
+                      name="OLDACCT"
+                      dataType="wstr"
+                      length="255" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].ExternalColumns[QTY]"
+                      name="QTY"
+                      dataType="numeric"
+                      precision="10" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].ExternalColumns[EXTPRICE]"
+                      name="EXTPRICE"
+                      dataType="numeric"
+                      precision="38"
+                      scale="3" />
+                    <externalMetadataColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output].ExternalColumns[PERIOD]"
+                      name="PERIOD"
+                      dataType="i2" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output]"
+                  name="OLE DB Source Error Output"
+                  isErrorOut="true">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[ITEM]"
+                      name="ITEM"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[ITEM]"
+                      length="24"
+                      dataType="str"
+                      codePage="1252" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[CUSTOMER]"
+                      name="CUSTOMER"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[CUSTOMER]"
+                      length="12"
+                      dataType="str"
+                      codePage="1252" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[OLDACCT]"
+                      name="OLDACCT"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[OLDACCT]"
+                      length="255"
+                      dataType="wstr" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[QTY]"
+                      name="QTY"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[QTY]"
+                      precision="10"
+                      dataType="numeric" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[EXTPRICE]"
+                      name="EXTPRICE"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[EXTPRICE]"
+                      precision="38"
+                      scale="3"
+                      dataType="numeric" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[PERIOD]"
+                      name="PERIOD"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[PERIOD]"
+                      dataType="i2" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      lineageId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Data Flow Task 1.Paths[OLE DB Source Output]"
+              name="OLE DB Source Output"
+              startId="Package\Data Flow Task 1\Source - Query.Outputs[OLE DB Source Output]"
+              endId="Package\Data Flow Task 1\Destination - BT_CUR_MNTH_TXT.Inputs[Flat File Destination Input]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+</DTS:Executable>
