@@ -25,7 +25,7 @@ def get_db():
     
     conn_string = f"mssql+pymssql://{urllib.parse.quote_plus(USER)}:{urllib.parse.quote_plus(PASSWORD)}@{SERVER}/{DB}"
     
-    engine = sqlalchemy.create_engine(
+    engine: Engine = sqlalchemy.create_engine(
         conn_string,
         connect_args={'timeout': 30, 'login_timeout': 60},
         pool_recycle=3600
