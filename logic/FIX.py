@@ -1,4 +1,5 @@
 import csv, getpass
+from helpers.context import DailyFilesContext
 
 def Fixes():
     """
@@ -15,8 +16,8 @@ def Fixes():
     The output file maintains the same format but with added duplicate order numbers and IDs.
     """
     # Define input and output file paths
-    ipsPath = '\\\\tutpub3\\vol2\\FOXPRO\\TestFiles\\Daily Files\\IPS_DAILY_NO_LINE_NUM.TXT'
-    ipsOutPath = '\\\\tutpub3\\vol2\\FOXPRO\\TestFiles\\Daily Files\\IPS_DAILY.TXT'
+    ipsPath = DailyFilesContext.fileserver_base() + '\\vol2\\FOXPRO\\TestFiles\\Daily Files\\IPS_DAILY_NO_LINE_NUM.TXT'
+    ipsOutPath = DailyFilesContext.fileserver_base() + '\\vol2\\FOXPRO\\TestFiles\\Daily Files\\IPS_DAILY.TXT'
     print(f"User: {getpass.getuser()}")
     try:
         # Open input and output files

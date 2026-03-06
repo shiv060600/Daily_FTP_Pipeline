@@ -63,7 +63,7 @@ def run_daily_file():
         logging.info("Additional fixes complete")
         
         # Add verification before calling SQLrun()
-        dest_dir = "\\\\TUTPUB3\\vol2\\FOXPRO\\TestFiles\\Daily Files"
+        dest_dir = DailyFilesContext.fileserver_base() + "\\vol2\\FOXPRO\\TestFiles\\Daily Files"
         required_files = ["IPS_INV.CDT", "LOCKED.CDP", "IPS_DAILY_NO_LINE_NUM.TXT"]
         
         missing_files = []
@@ -99,7 +99,7 @@ def run_daily_file():
 #send emails at the end
 def send_emails():
     dir_date = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%m%d%Y")
-    daily_files_folder_path = "\\\\TUTPUB3\\vol2\\FOXPRO\\TestFiles\\" + dir_date
+    daily_files_folder_path = DailyFilesContext.fileserver_base() + "\\vol2\\FOXPRO\\TestFiles\\" + dir_date
     if os.path.exists(daily_files_folder_path):
         logging.info(f"Folder exsist for day {dir_date} starting send email proccess")
     else:
@@ -145,7 +145,7 @@ if __name__ == "__main__":
         run_daily_file()
         #cant send emails until reports are moved into Reports folder after SQL server JOB
         dir_date = (datetime.datetime.now() - datetime.timedelta(days=1)).strftime("%m%d%Y")
-        report_folder_path = os.path.join("\\\\TUTPUB3\\vol2\\FOXPRO\\TestFiles\\",dir_date,"Reports")
+        report_folder_path = os.path.join(DailyFilesContext.fileserver_base() + "\\vol2\\FOXPRO\\TestFiles\\", dir_date, "Reports")
         time_waited = 0
         interval = 20
         time_out = 1800

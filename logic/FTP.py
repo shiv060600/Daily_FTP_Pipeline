@@ -4,6 +4,7 @@ from email.message import EmailMessage
 import smtplib
 from helpers.ENV import CREDS
 from helpers.ENV import EMAIL_CONFIG
+from helpers.context import DailyFilesContext
 import chardet
 
 def send_warning_email():
@@ -32,8 +33,8 @@ def FTP_pull(day):
     conn = ftplib.FTP('ftp.ingrampublisherservices.com')
     curr_date = datetime.datetime.now().strftime("%Y%m%d")
     try:
-        dirPath = "\\\\TUTPUB3\\vol2\\FOXPRO\\TestFiles\\" + Name_Creator("Folder", day)
-        log_dir_path = "\\\\TUTPUB3\\vol2\\FOXPRO\\TestFiles\\" + Name_Creator("Folder", day) + "\\logs"
+        dirPath = DailyFilesContext.fileserver_base() + "\\vol2\\FOXPRO\\TestFiles\\" + Name_Creator("Folder", day)
+        log_dir_path = DailyFilesContext.fileserver_base() + "\\vol2\\FOXPRO\\TestFiles\\" + Name_Creator("Folder", day) + "\\logs"
         logging.info(f"Directory path for files: {dirPath}")
         logging.info(f"Connecting to FTP as user a20V0190")
         
@@ -166,8 +167,8 @@ def File_Copy(names, day):
         day (datetime): The date being processed
     """
     logging.info("Starting File_Copy function")
-    dirPath = "\\\\TUTPUB3\\vol2\\FOXPRO\\TestFiles\\" + Name_Creator("Folder", day)
-    dest = "\\\\TUTPUB3\\vol2\\FOXPRO\\TestFiles\\Daily Files"
+    dirPath = DailyFilesContext.fileserver_base() + "\\vol2\\FOXPRO\\TestFiles\\" + Name_Creator("Folder", day)
+    dest = DailyFilesContext.fileserver_base() + "\\vol2\\FOXPRO\\TestFiles\\Daily Files"
     
     logging.info(f"Source directory: {dirPath}")
     logging.info(f"Destination directory: {dest}")
@@ -270,7 +271,7 @@ def Daily_Folder_Setup(day):
         int: 0 if successful
     """
     logging.info("Starting Daily_Folder_Setup function")
-    dirPath = "\\\\TUTPUB3\\vol2\\FOXPRO\\TestFiles\\" + Name_Creator("Folder", day)
+    dirPath = DailyFilesContext.fileserver_base() + "\\vol2\\FOXPRO\\TestFiles\\" + Name_Creator("Folder", day)
     logging.info(f"Setting up directory: {dirPath}")
     logging.info(f"Running as user: {getpass.getuser()}")
     
@@ -354,7 +355,7 @@ def File_Fixes(names, day):
         day (datetime): The date being processed
     """
     logging.info("Starting File_Fixes function")
-    dirPath = "\\\\TUTPUB3\\vol2\\FOXPRO\\TestFiles\\" + Name_Creator("Folder", day)
+    dirPath = DailyFilesContext.fileserver_base() + "\\vol2\\FOXPRO\\TestFiles\\" + Name_Creator("Folder", day)
     logging.info(f"Working directory: {dirPath}")
     logging.info(f"Running as user: {getpass.getuser()}")
     
@@ -404,6 +405,7 @@ def File_Fixes(names, day):
         logging.info(f"Source Trans exists: {os.path.exists(Trans)}")
         Trans = os.path.join(dirPath,Name_Creator("Trans",day))
 
+        #defensive if they send wrongly encoded cdt/cdp/csv (has happened before)
         if os.path.exists(Trans):
             try:
                 with open(Trans, 'r', encoding='utf-8') as read_Trans, open(TransTemp, 'w') as write_Trans:

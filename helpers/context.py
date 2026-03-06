@@ -1,6 +1,9 @@
 import datetime
 import pathlib
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 
 class DailyFilesContext:
@@ -39,10 +42,16 @@ class DailyFilesContext:
     def open_backorders_file_name():
         return f"open_backorders_{DailyFilesContext.open_backorders_file_date()}.csv"
 
+    @staticmethod
+    def fileserver_base() -> str:
+        if os.getenv("FILESHARE_VERSION") == "NEW":
+            return r"\\tuttlepub.com\fileshare"
+        return r"\\tutpub3"
+
     #paths
     @staticmethod
     def daily_files_path():
-        return pathlib.Path("\\\\tutpub3\\VOL2\\FOXPRO\\TestFiles").joinpath(DailyFilesContext.daily_file_dir_date())
+        return pathlib.Path(DailyFilesContext.fileserver_base()).joinpath("VOL2", "FOXPRO", "TestFiles", DailyFilesContext.daily_file_dir_date())
     
     @staticmethod
     def daily_files_logs_path():

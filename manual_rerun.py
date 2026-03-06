@@ -3,6 +3,7 @@ import glob
 import logging
 import sys
 from logic.manual_rerun_logic import proccess_daily_files_rerun
+from helpers.context import DailyFilesContext
 
 if __name__ == "__main__":
     logging.basicConfig(
@@ -11,8 +12,8 @@ if __name__ == "__main__":
         handlers=[logging.StreamHandler(sys.stdout)]
     )
 
-    rerun_resources = r"\\tutpub3\VOL2\FOXPRO\TestFiles\Manual_Reruns\rerun_resources"
-    rerun_output    = r"\\tutpub3\VOL2\FOXPRO\TestFiles\Manual_Reruns\rerun_output"
+    rerun_resources = DailyFilesContext.fileserver_base() + r"\VOL2\FOXPRO\TestFiles\Manual_Reruns\rerun_resources"
+    rerun_output    = DailyFilesContext.fileserver_base() + r"\VOL2\FOXPRO\TestFiles\Manual_Reruns\rerun_output"
 
     cdt_files   = glob.glob(os.path.join(rerun_resources, "*.CDT"))
     cdp_files   = glob.glob(os.path.join(rerun_resources, "*.CDP"))

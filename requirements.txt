@@ -4,8 +4,7 @@ pyodbc>=4.0.30
 # Build tool for creating executable
 pyinstaller>=5.0.0
 
-# Optional: Environment variable management (not currently used in code)
-# python-dotenv>=0.19.0 
+python-dotenv>=0.19.0
 pandas
 sqlalchemy
 openpyxl
