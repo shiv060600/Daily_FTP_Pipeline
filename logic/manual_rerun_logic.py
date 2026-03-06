@@ -345,14 +345,19 @@ def proccess_daily_files_rerun(CDT_path: str, CDP_path: str, transfile_path: str
     cr_detail.insert(3, 'LOCATION', 'DAMAGE')
 
     cr_path = os.path.join(output_path, 'CR_SAGE_UPLOAD.xlsx')
+
     for col in cr_header.columns:
         cr_header[col] = cr_header[col].astype(str)
+
     for col in cr_detail.columns:
         cr_detail[col] = cr_detail[col].astype(str)
+
     with pd.ExcelWriter(cr_path) as f:
         cr_header.to_excel(f, sheet_name='Credit_Debit_Notes', index=False)
         cr_detail.to_excel(f, sheet_name='Credit_Debit_Detail', index=False)
+
     wb: Workbook = pyxl_load_workbook(cr_path)
+
     for sheet in ['Credit_Debit_Notes', 'Credit_Debit_Detail']:
         ws: Worksheet = wb[sheet]
         for col_idx in range(1, ws.max_column + 1):
@@ -361,6 +366,7 @@ def proccess_daily_files_rerun(CDT_path: str, CDP_path: str, transfile_path: str
             cell.font = Font(bold=False, underline='none')
         cell_range = f"'{sheet}'!$A$1:${get_column_letter(ws.max_column)}${ws.max_row}"
         wb.defined_names[sheet] = DefinedName(name=sheet, attr_text=cell_range)
+
     wb.save(cr_path)
     wb.close()
     logger.info(f"CR written: {len(cr_header)} header, {len(cr_detail)} detail → {cr_path}")
@@ -388,7 +394,9 @@ def proccess_daily_files_rerun(CDT_path: str, CDP_path: str, transfile_path: str
     with pd.ExcelWriter(sl_path) as f:
         sl_header.to_excel(f, sheet_name='Orders', index=False)
         sl_detail.to_excel(f, sheet_name='Order_Details', index=False)
+
     wb: Workbook = pyxl_load_workbook(sl_path)
+
     for sheet in ['Orders', 'Order_Details']:
         ws: Worksheet = wb[sheet]
         for col_idx in range(1, ws.max_column + 1):
@@ -397,6 +405,7 @@ def proccess_daily_files_rerun(CDT_path: str, CDP_path: str, transfile_path: str
             cell.font = Font(bold=False, underline='none')
         cell_range = f"'{sheet}'!$A$1:${get_column_letter(ws.max_column)}${ws.max_row}"
         wb.defined_names[sheet] = DefinedName(name=sheet, attr_text=cell_range)
+
     wb.save(sl_path)
     wb.close()
     logger.info(f"SL written: {len(sl_header)} header, {len(sl_detail)} detail → {sl_path}")
@@ -422,6 +431,7 @@ def proccess_daily_files_rerun(CDT_path: str, CDP_path: str, transfile_path: str
         ing_path = os.path.join(output_path, 'ING_Transfers.csv')
         ing_transfers.to_csv(ing_path, index=False)
         logger.info(f"ING_Transfers.csv written: {len(ing_transfers)} rows → {ing_path}")
+        
     except Exception as e:
         logger.warning(f"ING_Transfers.csv skipped — could not query TUTLIV.dbo.INGQTY: {e}")
 

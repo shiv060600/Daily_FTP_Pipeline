@@ -12,27 +12,12 @@ from helpers.SQL import SQLrun
 from helpers.db_conn import get_db
 from helpers.context import DailyFilesContext
 from logic.sage_uploads import generate_sage_uploads
+from logic.reports_in_excel import generate_excel_inventory_adjustments
 from pyodbc import *
 import pandas as pd
 import sys
 from helpers.ENV import EMAIL_CONFIG
-
-def send_failure_email(error_message):
-    """Send email notification when daily file processing fails"""
-    try:
-        msg = EmailMessage()
-        msg['Subject'] = "Daily File FAILED - Action Required"
-        msg['From'] = EMAIL_CONFIG['EMAIL_USER']
-        msg['To'] = 'sbhutani@tuttlepublishing.com'
-        msg.set_content(f"Daily file has FAILED please check\n\nError Details:\n{error_message}")
-        
-        with smtplib.SMTP(EMAIL_CONFIG['SMTP_SERVER'], EMAIL_CONFIG['SMTP_PORT']) as server:
-            server.starttls()
-            server.login(EMAIL_CONFIG['EMAIL_USER'], EMAIL_CONFIG['EMAIL_PASSWORD'])
-            server.send_message(msg)
-            logging.info(f"Failure notification email sent to sbhutani@tuttlepublishing.com")
-    except Exception as e:
-        logging.error(f"Failed to send failure notification email: {e}")
+from helpers.email_helpers import send_failure_email
 
 def setup_logging():
     daily_file_logs_dir = DailyFilesContext.daily_files_logs_path()
@@ -182,15 +167,15 @@ if __name__ == "__main__":
         bhuvan wants copied files from the db, we can easily db_conn read them and excel write them into sage uploads without messing around with the current files.
         """
         generate_sage_uploads()
-        
-
-        #add extra analysis of excel files
+        generate_excel_inventory_adjustments()
         logging.info("----- Execution completed -----")
     except ImportError as e:
         error_msg = f"IMPORT ERROR: {e}"
         logging.error(error_msg)
         send_failure_email(error_msg)
+        sys.exit(1)
     except Exception as e:
         error_msg = f"EXECUTION ERROR: {e}"
         logging.error(error_msg)
         send_failure_email(error_msg)
+        sys.exit(1)
