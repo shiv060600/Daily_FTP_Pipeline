@@ -415,6 +415,7 @@ def File_Fixes(names, day):
                     data = data.replace("'", "")
                     data = data.replace(",", "")
                     write_Trans.write(data)
+
             except UnicodeDecodeError:
                 logging.warning("UTF-8 decode failed, trying cp1252 (ANSI)...")
                 with open(Trans, 'r', encoding='cp1252', errors='replace') as read_Trans, open(TransTemp, 'w') as write_Trans:
@@ -424,14 +425,17 @@ def File_Fixes(names, day):
                     data = data.replace("'", "")
                     data = data.replace(",", "")
                     write_Trans.write(data)
+
             logging.info(f"Trans processing complete")
             logging.info(f"Output Trans exists: {os.path.exists(TransTemp)}")
+
             if os.path.exists(TransTemp):
                 logging.info(f"Output Trans size: {os.path.getsize(TransTemp)} bytes")
                 
     except PermissionError as e:
         logging.error(f"PermissionError in File_Fixes: {e}")
         raise
+    
     except Exception as e:
         logging.error(f"An unexpected error occurred in File_Fixes: {e}")
         raise

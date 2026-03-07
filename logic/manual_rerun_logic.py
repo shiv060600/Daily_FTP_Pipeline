@@ -179,19 +179,25 @@ def proccess_daily_files_rerun(CDT_path: str, CDP_path: str, transfile_path: str
     transfer_sage = transfer_raw.copy()
     transfer_sage.columns = ['LINENUM', 'EAN', 'FROMLOC', 'TOLOC', 'QTY', 'PONUM', 'QTYREQ']
     transfer_sage_path = os.path.join(output_path, 'TRANSFER_SAGE_UPLOAD.xlsx')
+
     for col in transfer_sage.columns:
         transfer_sage[col] = transfer_sage[col].astype(str)
+
     with pd.ExcelWriter(transfer_sage_path) as f:
         transfer_sage.to_excel(f, sheet_name='Transfer', index=False)
+
     wb: Workbook = pyxl_load_workbook(transfer_sage_path)
+
     for sheet in ['Transfer']:
         ws: Worksheet = wb[sheet]
         for col_idx in range(1, ws.max_column + 1):
             ws.column_dimensions[get_column_letter(col_idx)].number_format = '@'
         for cell in ws[1]:
             cell.font = Font(bold=False, underline='none')
+
         cell_range = f"'{sheet}'!$A$1:${get_column_letter(ws.max_column)}${ws.max_row}"
         wb.defined_names[sheet] = DefinedName(name=sheet, attr_text=cell_range)
+
     wb.save(transfer_sage_path)
     wb.close()
     logger.info(f"TRANSFER_SAGE_UPLOAD.xlsx written → {transfer_sage_path}")
@@ -206,16 +212,19 @@ def proccess_daily_files_rerun(CDT_path: str, CDP_path: str, transfile_path: str
     id_start = 6300
     line_nums = []
     order_ids = []
+
     for ordnum in daily_df['Ordnum']:
         if ordnum in orddict:
             orddict[ordnum] += 1
         else:
             orddict[ordnum] = 1
         line_nums.append(orddict[ordnum])
+
         if ordnum not in ordIddict:
             ordIddict[ordnum] = str(id_start)
             id_start += 1
         order_ids.append(ordIddict[ordnum])
+
     daily_df['Line_num'] = line_nums
     daily_df['Order_id'] = order_ids
 
@@ -239,6 +248,7 @@ def proccess_daily_files_rerun(CDT_path: str, CDP_path: str, transfile_path: str
         daily_df.loc[xref_mask, 'Crossref'] = 'X'
         daily_df.loc[xref_mask, 'Billto'] = daily_df.loc[xref_mask, 'Billto'].map(crossref_map)
         logger.info(f"Crossref applied: {xref_mask.sum()} rows remapped")
+
     except Exception as e:
         logger.warning(f"Crossref lookup failed — Billto will not be remapped: {e}")
 
@@ -297,6 +307,7 @@ def proccess_daily_files_rerun(CDT_path: str, CDP_path: str, transfile_path: str
     rv_header = rv_df[rv_df['Line_num'] == 1][
         ['Order_id', 'Ordnum', 'Billto', 'Ponumber', 'Pdate', 'Rep_inv', 'Traninfo', 'Post']
     ].copy()
+
     rv_header.columns = ['ORDUNIQ', 'ORDNUMBER', 'CUSTOMER', 'PONUMBER', 'ORDDATE', 'DESC', 'COMMENT', 'POSTINV']
     rv_header['ORDDATE'] = pd.to_datetime(rv_header['ORDDATE'], errors='coerce').apply(
         lambda x: f"{x.month}/{x.day}/{x.year}" if pd.notna(x) else None
@@ -308,20 +319,26 @@ def proccess_daily_files_rerun(CDT_path: str, CDP_path: str, transfile_path: str
     rv_path = os.path.join(output_path, 'RV_SAGE_UPLOAD.xlsx')
     for col in rv_header.columns:
         rv_header[col] = rv_header[col].astype(str)
+
     for col in rv_detail.columns:
         rv_detail[col] = rv_detail[col].astype(str)
+
     with pd.ExcelWriter(rv_path) as f:
         rv_header.to_excel(f, sheet_name='RV_Header', index=False)
         rv_detail.to_excel(f, sheet_name='RV_Detail', index=False)
+
     wb: Workbook = pyxl_load_workbook(rv_path)
     for sheet in ['RV_Header', 'RV_Detail']:
         ws: Worksheet = wb[sheet]
         for col_idx in range(1, ws.max_column + 1):
-            ws.column_dimensions[get_column_letter(col_idx)].number_format = '@'
+            ws.column_dimensions[get_column_letter(col_idx)].number_format = '@' #set all cells text format
+
         for cell in ws[1]:
             cell.font = Font(bold=False, underline='none')
+
         cell_range = f"'{sheet}'!$A$1:${get_column_letter(ws.max_column)}${ws.max_row}"
         wb.defined_names[sheet] = DefinedName(name=sheet, attr_text=cell_range)
+
     wb.save(rv_path)
     wb.close()
     logger.info(f"RV written: {len(rv_header)} header, {len(rv_detail)} detail → {rv_path}")
@@ -377,6 +394,7 @@ def proccess_daily_files_rerun(CDT_path: str, CDP_path: str, transfile_path: str
     sl_header = sl_df[sl_df['Line_num'] == 1][
         ['Order_id', 'Ordnum', 'Billto', 'Ponumber', 'Pdate', 'Rep_inv', 'Traninfo', 'Post']
     ].copy()
+
     sl_header.columns = ['ORDUNIQ', 'ORDNUMBER', 'CUSTOMER', 'PONUMBER', 'ORDDATE', 'DESC', 'COMMENT', 'POSTINV']
     sl_header['ORDDATE'] = pd.to_datetime(sl_header['ORDDATE'], errors='coerce').apply(
         lambda x: f"{x.month}/{x.day}/{x.year}" if pd.notna(x) else None
@@ -399,10 +417,13 @@ def proccess_daily_files_rerun(CDT_path: str, CDP_path: str, transfile_path: str
 
     for sheet in ['Orders', 'Order_Details']:
         ws: Worksheet = wb[sheet]
+
         for col_idx in range(1, ws.max_column + 1):
             ws.column_dimensions[get_column_letter(col_idx)].number_format = '@'
+
         for cell in ws[1]:
             cell.font = Font(bold=False, underline='none')
+            
         cell_range = f"'{sheet}'!$A$1:${get_column_letter(ws.max_column)}${ws.max_row}"
         wb.defined_names[sheet] = DefinedName(name=sheet, attr_text=cell_range)
 
