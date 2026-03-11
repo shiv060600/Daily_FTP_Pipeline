@@ -8,7 +8,7 @@ from sqlalchemy import text
 
 CC_REPORTS = {"INV_ADJ_CC_IPS", "INV_ADJ_CC_ING"}
 
-REPORT_SQL = {
+REPORT_SQL : dict[str,str] = {
     "INV_ADJ_CC_IPS": """
         SELECT IPS.Acttype AS REASONCODE, IPS.WHS, CAST(IPS.EAN AS Char(24)) AS EAN,
                I.[DESC] AS TITLE, IPS.Qty AS QTY
