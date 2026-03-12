@@ -11,3 +11,4 @@ openpyxl
 pymssql
 openpyxl-stubs
 pytest
+reportlab

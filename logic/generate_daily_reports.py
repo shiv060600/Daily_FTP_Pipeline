@@ -1,6 +1,8 @@
 import logging
 from pathlib import Path
-from weasyprint import HTML
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib.pagesizes import landscape, A4
+from reportlab.lib import colors
 import pandas as pd
 from helpers.context import DailyFilesContext
 from helpers.db_conn import get_db
@@ -61,6 +63,29 @@ REPORT_SQL : dict[str,str] = {
 }
 
 STANDARD_COLS = ["REASONCODE", "WHS", "EAN", "TITLE", "QTY"]
+
+
+def _write_pdf(df: pd.DataFrame, path: Path) -> None:
+    doc = SimpleDocTemplate(str(path), pagesize=landscape(A4))
+    data = [df.columns.tolist()] + [
+        [str(v) if v is not None else "" for v in row]
+        for row in df.itertuples(index=False)
+    ]
+    table = Table(data, repeatRows=1)
+    table.setStyle(TableStyle([
+        ("BACKGROUND",      (0, 0), (-1, 0),  colors.HexColor("#f2f2f2")),
+        ("FONTNAME",        (0, 0), (-1, 0),  "Helvetica-Bold"),
+        ("FONTSIZE",        (0, 0), (-1, -1), 9),
+        ("GRID",            (0, 0), (-1, -1), 0.5, colors.HexColor("#cccccc")),
+        ("ROWBACKGROUNDS",  (0, 1), (-1, -1), [colors.white, colors.HexColor("#fafafa")]),
+        ("ALIGN",           (0, 0), (-1, -1), "LEFT"),
+        ("VALIGN",          (0, 0), (-1, -1), "MIDDLE"),
+        ("LEFTPADDING",     (0, 0), (-1, -1), 8),
+        ("RIGHTPADDING",    (0, 0), (-1, -1), 8),
+        ("TOPPADDING",      (0, 0), (-1, -1), 5),
+        ("BOTTOMPADDING",   (0, 0), (-1, -1), 5),
+    ]))
+    doc.build([table])
 
 def generate_daily_reports(path : str | None = None):
 
@@ -123,37 +148,7 @@ def generate_daily_reports(path : str | None = None):
 
             logging.info("Wrote %s to %s (excel version)", report, path)
 
-            df_html = df.to_html(index=False)
-
-            all_inclusive_css = """
-                    <style>
-                        @page {
-                            size: auto;
-                            margin: 20px;
-                        }
-                        table {
-                            border-collapse: collapse;
-                            font-family: 'Segoe UI', Arial, sans-serif;
-                            font-size: 10pt;
-                            width: auto !important;
-                            table-layout: auto;
-                        }
-                        th, td {
-                            border: 1px solid #ccc;
-                            padding: 8px 12px;
-                            white-space: nowrap;
-                            text-align: left;
-                        }
-                        th {
-                            background-color: #f2f2f2;
-                            font-weight: bold;
-                        }
-                        tr:nth-child(even) { background-color: #fafafa; }
-                    </style>
-            """
-            full_content = all_inclusive_css + df_html
-
-            HTML(string=full_content).write_pdf(new_pdf_reports_path.joinpath(f"{report}.pdf"))
+            _write_pdf(df, new_pdf_reports_path.joinpath(f"{report}.pdf"))
 
     return "Passed"
 
