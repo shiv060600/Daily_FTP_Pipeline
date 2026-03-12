@@ -260,7 +260,7 @@ def File_Copy(names, day):
         logging.error(f"An unexpected error occurred in File_Copy: {e}")
         raise
 
-def Daily_Folder_Setup(day):
+def Daily_Folder_Setup(day,path:str | None = None):
     """
     Creates and sets up the daily folder for file processing.
     
@@ -270,8 +270,12 @@ def Daily_Folder_Setup(day):
     Returns:
         int: 0 if successful
     """
+    if not path:
+        dirPath = DailyFilesContext.fileserver_base() + "\\vol2\\FOXPRO\\TestFiles\\" + Name_Creator("Folder", day)
+    else:
+        dirPath = path
     logging.info("Starting Daily_Folder_Setup function")
-    dirPath = DailyFilesContext.fileserver_base() + "\\vol2\\FOXPRO\\TestFiles\\" + Name_Creator("Folder", day)
+    
     logging.info(f"Setting up directory: {dirPath}")
     logging.info(f"Running as user: {getpass.getuser()}")
     

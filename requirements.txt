@@ -10,3 +10,5 @@ sqlalchemy
 openpyxl
 pymssql
 openpyxl-stubs
+weasyprint
+pytest
