@@ -108,7 +108,7 @@ def generate_sage_uploads():
                 credit_details.to_excel(f,sheet_name = "Credit_Debit_Detail", index = False)
             
             wb: Workbook = pyxl_load_workbook(DailyFilesContext.daily_files_path().joinpath(cr_filename))
-            for sheet in ['Credit_Debit_Notes', 'Credit_Debit_Detail']:
+            for sheet in ['Credit_Debit_Notes', 'Credit_Debit_Details']:
                 ws: Worksheet = wb[sheet]
                 for col_idx in range(1, ws.max_column + 1):
                     ws.column_dimensions[get_column_letter(col_idx)].number_format = '@'
