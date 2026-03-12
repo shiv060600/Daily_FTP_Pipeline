@@ -5,7 +5,6 @@ import smtplib
 from helpers.ENV import CREDS
 from helpers.ENV import EMAIL_CONFIG
 from helpers.context import DailyFilesContext
-import chardet
 
 def send_warning_email():
     message = EmailMessage()

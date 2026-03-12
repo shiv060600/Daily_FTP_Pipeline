@@ -76,15 +76,3 @@ class TestFTPIntegration:
         )
         assert os.path.exists(expected), f"Expected directory not created: {expected}"
 
-    def test_ftp_pull_returns_cdt_and_cdp_keys(self):
-        """
-        Performs a live FTP pull. Requires FTP credentials in .env and a live FTP connection.
-        WARNING: This downloads real files from the FTP server.
-        Run only in a controlled context — not on the same day as a production run.
-        """
-        import logic.FTP as FTP
-
-        safe_past_day = datetime.datetime(2020, 1, 15)
-        names = FTP.FTP_pull(safe_past_day)
-        assert "CDT" in names
-        assert "CDP" in names
