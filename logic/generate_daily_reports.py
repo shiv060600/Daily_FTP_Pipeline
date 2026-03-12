@@ -1,6 +1,7 @@
 import logging
 from pathlib import Path
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import landscape, A4
 from reportlab.lib import colors
 import pandas as pd
@@ -65,8 +66,15 @@ REPORT_SQL : dict[str,str] = {
 STANDARD_COLS = ["REASONCODE", "WHS", "EAN", "TITLE", "QTY"]
 
 
-def _write_pdf(df: pd.DataFrame, path: Path) -> None:
+def _write_pdf(df: pd.DataFrame, path: Path, title: str = "") -> None:
     doc = SimpleDocTemplate(str(path), pagesize=landscape(A4))
+    styles = getSampleStyleSheet()
+    flowables = []
+
+    if title:
+        flowables.append(Paragraph(title, styles["Title"]))
+        flowables.append(Spacer(1, 12))
+
     data = [df.columns.tolist()] + [
         [str(v) if v is not None else "" for v in row]
         for row in df.itertuples(index=False)
@@ -85,7 +93,8 @@ def _write_pdf(df: pd.DataFrame, path: Path) -> None:
         ("TOPPADDING",      (0, 0), (-1, -1), 5),
         ("BOTTOMPADDING",   (0, 0), (-1, -1), 5),
     ]))
-    doc.build([table])
+    flowables.append(table)
+    doc.build(flowables)
 
 def generate_daily_reports(path : str | None = None):
 
@@ -148,7 +157,7 @@ def generate_daily_reports(path : str | None = None):
 
             logging.info("Wrote %s to %s (excel version)", report, path)
 
-            _write_pdf(df, new_pdf_reports_path.joinpath(f"{report}.pdf"))
+            _write_pdf(df, new_pdf_reports_path.joinpath(f"{report}.pdf"), title=report)
 
     return "Passed"
 
