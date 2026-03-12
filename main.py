@@ -12,7 +12,7 @@ from helpers.SQL import SQLrun
 from helpers.db_conn import get_db
 from helpers.context import DailyFilesContext
 from logic.sage_uploads import generate_sage_uploads
-from logic.reports_in_excel import generate_excel_inventory_adjustments
+from logic.generate_daily_reports import generate_daily_reports
 from pyodbc import *
 import pandas as pd
 import sys
@@ -91,6 +91,8 @@ def run_daily_file():
         logging.info("About to run SQL Job")
         SQLrun()
         logging.info("SQL Job function called")
+
+        
     except Exception as e:
         error_msg = f"Error in processing: {e}"
         logging.error(error_msg, exc_info=True)
@@ -167,7 +169,7 @@ if __name__ == "__main__":
         bhuvan wants copied files from the db, we can easily db_conn read them and excel write them into sage uploads without messing around with the current files.
         """
         generate_sage_uploads()
-        generate_excel_inventory_adjustments()
+        generate_daily_reports()
         logging.info("----- Execution completed -----")
     except ImportError as e:
         error_msg = f"IMPORT ERROR: {e}"
