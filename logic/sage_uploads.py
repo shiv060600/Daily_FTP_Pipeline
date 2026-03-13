@@ -105,7 +105,7 @@ def generate_sage_uploads():
             logging.info("writing credits to sheet")
             with pd.ExcelWriter(DailyFilesContext.daily_files_path().joinpath(cr_filename)) as f:
                 credit_header.to_excel(f,sheet_name = "Credit_Debit_Notes",index = False)
-                credit_details.to_excel(f,sheet_name = "Credit_Debit_Detail", index = False)
+                credit_details.to_excel(f,sheet_name = "Credit_Debit_Details", index = False)
             
             wb: Workbook = pyxl_load_workbook(DailyFilesContext.daily_files_path().joinpath(cr_filename))
             for sheet in ['Credit_Debit_Notes', 'Credit_Debit_Details']:
@@ -121,3 +121,6 @@ def generate_sage_uploads():
             wb.save(DailyFilesContext.daily_files_path().joinpath(cr_filename))
             wb.close()
             logging.info("successfully wrote credits to sheet")
+
+if __name__ == "__main__":
+    generate_sage_uploads()
