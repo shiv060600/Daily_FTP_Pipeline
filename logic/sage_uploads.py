@@ -102,13 +102,111 @@ def generate_sage_uploads():
             for col in credit_details.columns:
                 credit_details[col] = credit_details[col].astype(str)
 
+            #need to make blank dfs for multiple sheets or the upload will throw error
+            credit_debit_detail_serial_nos = pd.DataFrame(columns = [
+                "CRDUNIQ",
+                "LINENUM",
+                "SERIALNUMF",
+                "DETAILNUM",
+                "COST",
+                "QTY"
+            ])
+            credit_debit_detail_lot_numbers = pd.DataFrame(
+                columns = [
+                    "CRDUNIQ",
+                    "LINENUM",
+                    "LOTNUMF",
+                    "DETAILNUM",
+                    "EXPIRYDATE",
+                    "STKQTY",
+                    "QTY",
+                    "INVSTKQTY",
+                    "COST"
+                ]
+            )
+
+            crd_dbn_comments_instructions = pd.DataFrame(
+                columns = [
+                    "CRDUNIQ",
+                    "UNIQUIFIER",
+                    "DETAILNUM",
+                    "COINTYPE",
+                    "COIN"
+                ]
+            )
+
+            credit_debit_note_opt_fields = pd.DataFrame(
+                columns = [
+                    "CRDUNIQ",
+                    "OPTFIELD",
+                    "VALUE",
+                    "TYPE",
+                    "LENGTH",
+                    "DECIMALS",
+                    "ALLOWNULL",
+                    "VALIDATE",
+                    "SWSET",
+                    "VALINDEX",
+                    "VALIFTEXT",
+                    "VALIFMONEY",
+                    "VALIFNUM",
+                    "VALIFLONG",
+                    "VALIFBOOL",
+                    "VALIFDATE",
+                    "VALIFTIME",
+                    "FDESC",
+                    "VDESC"
+                ]
+            )
+
+            credit_debit_detail_opt_fields = pd.DataFrame(
+                columns = [
+                    "CRDUNIQ",
+                    "LINENUM",
+                    "OPTFIELD",
+                    "VALUE",
+                    "TYPE",
+                    "LENGTH",
+                    "DECIMALS",
+                    "ALLOWNULL",
+                    "VALIDATE",
+                    "SWSET",
+                    "VALINDEX",
+                    "VALIFTEXT",
+                    "VALIFMONEY",
+                    "VALIFNUM",
+                    "VALIFLONG",
+                    "VALIFBOOL",
+                    "VALIFDATE",
+                    "VALIFTIME",
+                    "FDESC",
+                    "VDESC"
+                ]
+            )
+
+
+
+
             logging.info("writing credits to sheet")
             with pd.ExcelWriter(DailyFilesContext.daily_files_path().joinpath(cr_filename)) as f:
-                credit_header.to_excel(f,sheet_name = "Credit_Debit_Notes",index = False)
-                credit_details.to_excel(f,sheet_name = "Credit_Debit_Details", index = False)
-            
+                credit_header.to_excel(f, sheet_name="Credit_Debit_Notes", index=False)
+                credit_details.to_excel(f, sheet_name="Credit_Debit_Details", index=False)
+                credit_debit_detail_serial_nos.to_excel(f, sheet_name="Credit_Debit_Detail_Serial_Nos", index=False)
+                credit_debit_detail_lot_numbers.to_excel(f, sheet_name="Credit_Debit_Detail_Lot_Numbers", index=False)
+                crd_dbn_comments_instructions.to_excel(f, sheet_name="Crd_Dbn_Comments_Instructions", index=False)
+                credit_debit_note_opt_fields.to_excel(f, sheet_name="Credit_Debit_Note_Opt__Fields", index=False)
+                credit_debit_detail_opt_fields.to_excel(f, sheet_name="Credit_Debit_Detail_Opt__Fields", index=False)
+
             wb: Workbook = pyxl_load_workbook(DailyFilesContext.daily_files_path().joinpath(cr_filename))
-            for sheet in ['Credit_Debit_Notes', 'Credit_Debit_Details']:
+            for sheet in [
+                'Credit_Debit_Notes',
+                'Credit_Debit_Details',
+                'Credit_Debit_Detail_Serial_Nos',
+                'Credit_Debit_Detail_Lot_Numbers',
+                'Crd_Dbn_Comments_Instructions',
+                'Credit_Debit_Note_Opt__Fields',
+                'Credit_Debit_Detail_Opt__Fields',
+            ]:
                 ws: Worksheet = wb[sheet]
                 for col_idx in range(1, ws.max_column + 1):
                     ws.column_dimensions[get_column_letter(col_idx)].number_format = '@'
