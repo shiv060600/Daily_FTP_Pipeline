@@ -194,8 +194,8 @@ def generate_sage_uploads():
                 credit_debit_detail_serial_nos.to_excel(f, sheet_name="Credit_Debit_Detail_Serial_Nos", index=False)
                 credit_debit_detail_lot_numbers.to_excel(f, sheet_name="Credit_Debit_Detail_Lot_Numbers", index=False)
                 crd_dbn_comments_instructions.to_excel(f, sheet_name="Crd_Dbn_Comments_Instructions", index=False)
-                credit_debit_note_opt_fields.to_excel(f, sheet_name="Credit_Debit_Note_Opt__Fields", index=False)
-                credit_debit_detail_opt_fields.to_excel(f, sheet_name="Credit_Debit_Detail_Opt__Fields", index=False)
+                credit_debit_note_opt_fields.to_excel(f, sheet_name="Credit_Debit_Note_Opt_Fields", index=False)
+                credit_debit_detail_opt_fields.to_excel(f, sheet_name="Credit_Debit_Detail_Opt_Fields", index=False)
 
             wb: Workbook = pyxl_load_workbook(DailyFilesContext.daily_files_path().joinpath(cr_filename))
             for sheet in [
@@ -204,8 +204,8 @@ def generate_sage_uploads():
                 'Credit_Debit_Detail_Serial_Nos',
                 'Credit_Debit_Detail_Lot_Numbers',
                 'Crd_Dbn_Comments_Instructions',
-                'Credit_Debit_Note_Opt__Fields',
-                'Credit_Debit_Detail_Opt__Fields',
+                'Credit_Debit_Note_Opt_Fields',
+                'Credit_Debit_Detail_Opt_Fields',
             ]:
                 ws: Worksheet = wb[sheet]
                 for col_idx in range(1, ws.max_column + 1):
